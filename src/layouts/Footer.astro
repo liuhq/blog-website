@@ -1,0 +1,24 @@
+---
+import { site } from '#config';
+import LinkTo from '#components/LinkTo.astro';
+---
+
+<footer id="footer">
+    <div>
+        <i class="ri-copyright-line ri-fw"></i>{`${site.footer.since} - ${new Date().getUTCFullYear()} | ${site.title}`}
+        &nbsp;&nbsp;
+        <LinkTo href={site.footer.authorLink} staticLink={true}>
+            <i class="ri-at-line ri-fw"></i>{site.author}
+        </LinkTo>
+    </div>
+    <div>
+        Based on <LinkTo
+            href="https://astro.build/"
+            rel={'nofollow noopener noreferrer'}
+            target={'_blank'}
+            staticLink={true}
+        >
+            Astro Engine
+        </LinkTo>
+    </div>
+</footer>

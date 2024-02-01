@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import { getTags } from '#utils/GetSomething';
+import entrySort from '#utils/EntrySort';
+import BaseLayout from '#layouts/BaseLayout.astro';
+import Current from '#components/Current.astro';
+import Tags from '#components/Tags.astro';
+
+const blogEntries = entrySort(await getCollection('blog'));
+const tags = getTags(blogEntries);
+
+const amount = tags.length;
+---
+
+<BaseLayout>
+    <Current>
+        <Fragment slot="title">
+            <i class="ri-price-tag-3-line"></i>
+            标签
+        </Fragment>
+        <Fragment slot="info">
+            {amount > 0 ? `已为你收集到标签 ${amount} 枚 ~ o,(￣▽￣)"` : '呜呜呜抱歉，没有找到正在使用的标签~ ≧ ﹏ ≦'}
+        </Fragment>
+    </Current>
+    {amount > 0 && <Tags {tags} />}
+</BaseLayout>

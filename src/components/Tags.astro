@@ -1,0 +1,24 @@
+---
+import { router } from '#config';
+import LinkTo from '#components/LinkTo.astro';
+
+interface Props {
+    tags: Array<string | undefined>;
+}
+
+const { tags } = Astro.props as Props;
+---
+
+{
+    tags.length > 0 && (
+        <ul id="tags-list">
+            {tags.map(tag => (
+                <li class="tags-item">
+                    <LinkTo href={router.path(router.TAGS, tag, '1')} bold={true}>
+                        <i class="ri-hashtag">{tag}</i>
+                    </LinkTo>
+                </li>
+            ))}
+        </ul>
+    )
+}

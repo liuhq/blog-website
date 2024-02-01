@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Card from '#components/Card.astro';
+
+interface Props {
+    entries: Array<CollectionEntry<'blog'>>;
+    showCate?: boolean;
+}
+
+const { entries, showCate = true } = Astro.props as Props;
+---
+
+<section class="cards">
+    {entries.map(({ data, slug }) => <Card {slug} {data} {showCate} />)}
+</section>

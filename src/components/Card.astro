@@ -1,0 +1,53 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { router, site } from '#config';
+import dateFormat from '#utils/DateFormat';
+import LinkTo from '#components/LinkTo.astro';
+
+interface Props {
+    slug: string;
+    data: Pick<CollectionEntry<'blog'>, 'data'>['data'];
+    showCate: boolean;
+}
+
+const { slug, data, showCate } = Astro.props as Props;
+const category = data.category || site.uncategorized;
+---
+
+<article class="card">
+    <header>
+        <h3 class="card-title">
+            <LinkTo href={router.path(router.BLOG, slug)} bold={true}>
+                {data.title}
+            </LinkTo>
+        </h3>
+        <div class="card-info">
+            <span>
+                <i class="ri-calendar-2-fill ri-lg ri-fw"> </i>
+                <time datetime={data.date.toISOString()}>{dateFormat(data.date)}</time>
+            </span>
+            {
+                showCate && (
+                    <LinkTo href={router.path(router.PUBLISHED, category, '1')}>
+                        <i class="ri-bookmark-fill ri-lg ri-fw"> </i>
+                        {category}
+                    </LinkTo>
+                )
+            }
+        </div>
+    </header>
+    {data.description && <div class="card-desc md" set:html={data.description} />}
+    {
+        data.tags && data.tags.length > 0 && (
+            <footer>
+                <div class="card-tags">
+                    {data.tags.map(tag => (
+                        <LinkTo href={router.path(router.TAGS, tag, '1')} class="card-tag">
+                            <i class="ri-hashtag">{tag}</i>
+                        </LinkTo>
+                    ))}
+                </div>
+            </footer>
+        )
+    }
+</article>

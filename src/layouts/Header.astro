@@ -1,0 +1,61 @@
+---
+import { router, site } from '#config';
+import LinkTo from '#components/LinkTo.astro';
+
+interface Props {
+    notHome: boolean;
+}
+
+const { notHome } = Astro.props as Props;
+---
+
+<script>
+    const openMenu = document.getElementById('open-menu') as HTMLButtonElement;
+    const openMenuIcon = openMenu.childNodes[0] as HTMLElement;
+    const menuList = document.querySelector('#navigator .menu .menu-list')?.classList;
+    openMenu.addEventListener('click', () => {
+        openMenuIcon.classList.toggle('ri-menu-3-fill');
+        openMenuIcon.classList.toggle('ri-close-fill');
+        menuList?.toggle('shown');
+        const expanded = openMenu.getAttribute('aria-expanded') === 'true';
+        openMenu.setAttribute('aria-expanded', `${!expanded}`);
+    });
+</script>
+
+<header id="header">
+    <nav id="navigator">
+        <div class="home-link">
+            <div class="avatar-container">
+                <img class="avatar" src={site.profile.avatar[0]} alt="avatar" />
+            </div>
+            {!notHome && <p>{site.profile.avatar[1]}</p>}
+            {
+                notHome && (
+                    <a href={router.HOME} target="_self">
+                        {site.title}
+                    </a>
+                )
+            }
+        </div>
+        <div class="menu">
+            <button
+                id="open-menu"
+                type="button"
+                tabindex="0"
+                role="button"
+                aria-label="open-menu"
+                aria-expanded="false"
+                set:html={`<i class="ri-menu-3-fill ri-2x"></i>`}
+            />
+            <ul class="menu-list">
+                {
+                    site.navigator.map(({ name, link }) => (
+                        <li class="menu-item">
+                            <LinkTo href={link}>{name}</LinkTo>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </nav>
+</header>

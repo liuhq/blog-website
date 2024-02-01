@@ -1,0 +1,52 @@
+---
+
+---
+
+<script>
+    const goToTop = document.getElementById('go-to-top') as HTMLButtonElement;
+    const goToTopIcon = goToTop.childNodes[0] as HTMLElement;
+    const darkSwitch = document.getElementById('dark-switch') as HTMLButtonElement;
+    const dataset = document.documentElement.dataset;
+
+    window.addEventListener('scroll', () => {
+        goToTop.classList.toggle('hidden', document.documentElement.scrollTop < window.innerHeight / 4);
+        goToTopIcon.classList.toggle('hidden', document.documentElement.scrollTop < window.innerHeight / 4);
+    });
+
+    goToTop.addEventListener('click', () => {
+        window.scrollTo({ top: document.body.scrollTop, behavior: 'smooth' });
+    });
+
+    darkSwitch.addEventListener('click', () => {
+        darkSwitch.disabled = true;
+        darkSwitch.setAttribute(
+            'aria-label',
+            `dark mode ${darkSwitch.getAttribute('aria-label') === 'dark mode off' ? 'on' : 'off'}`
+        );
+        dataset.darkmode = dataset.darkmode === 'light' ? 'dark' : 'light';
+        globalThis.localStorage.setItem('theme', dataset.darkmode);
+
+        setTimeout(() => {
+            darkSwitch.disabled = false;
+        }, 400);
+    });
+</script>
+
+<aside id="tool">
+    <button
+        class="tool-button"
+        id="dark-switch"
+        type="button"
+        role="button"
+        aria-label="dark mode off"
+        set:html={`<i class="ri-moon-clear-line ri-2x" id="moon-icon"></i><i class="ri-sun-line ri-2x" id="sun-icon"></i>`}
+    />
+    <button
+        class="tool-button hidden"
+        id="go-to-top"
+        type="button"
+        role="button"
+        aria-label="go to top"
+        set:html={`<i class="ri-skip-up-line ri-2x hidden"></i>`}
+    />
+</aside>

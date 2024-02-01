@@ -1,0 +1,26 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# the files about Configuration
+[{*.json,.prettierrc,*.config.ts,config.ts,env.d.ts,*.md}]
+indent_style = space
+indent_size = 2
+
+# ignore dist
+[/dist/**,/node_modules/**,/.astro/**]
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset

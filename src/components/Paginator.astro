@@ -1,0 +1,37 @@
+---
+import type { Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import LinkTo from '#components/LinkTo.astro';
+
+interface Props {
+    page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props as Props;
+---
+
+<footer>
+    <ul id="paginator">
+        {
+            page.url.prev && (
+                <li>
+                    <LinkTo href={page.url.prev}>
+                        <i class="ri-arrow-left-s-line" />
+                        往前翻页
+                    </LinkTo>
+                </li>
+            )
+        }
+        {page.url.prev && page.url.next && <li>ϕ./ᐠ｡ꞈ｡ᐟ\.o</li>}
+        {
+            page.url.next && (
+                <li>
+                    <LinkTo href={page.url.next}>
+                        往后翻页
+                        <i class="ri-arrow-right-s-line" />
+                    </LinkTo>
+                </li>
+            )
+        }
+    </ul>
+</footer>
