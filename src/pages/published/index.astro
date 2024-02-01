@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import { site } from '#config';
+import { getCategories } from '#utils/GetSomething';
+import dateFormat from '#utils/DateFormat';
+import entrySort from '#utils/EntrySort';
+import BaseLayout from '#layouts/BaseLayout.astro';
+import Current from '#components/Current.astro';
+import List from '#components/List.astro';
+
+const blogEntries = entrySort(await getCollection('blog'));
+const categories = [
+    { name: site.allCategories, count: blogEntries.length, update: blogEntries[0].data.date },
+    ...getCategories(blogEntries, site.uncategorized),
+];
+---
+
+<BaseLayout>
+    <Current>
+        <Fragment slot="title">
+            <i class="ri-menu-4-fill"></i>
+            文章
+        </Fragment>
+        <Fragment slot="info">
+            已发布文章 {blogEntries.length} 篇 (<small>
+                <time datetime={blogEntries[0].data.date.toISOString()}>{dateFormat(blogEntries[0].data.date)}</time
+                >更新
+            </small>) ~~~ ♪(´▽｀)
+        </Fragment>
+    </Current>
+    <List categories={categories} />
+</BaseLayout>

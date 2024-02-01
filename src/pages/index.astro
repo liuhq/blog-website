@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import { version } from 'package.json';
+import { router, site } from '#config';
+import entrySort from '#utils/EntrySort';
+import dateFormat from '#utils/DateFormat';
+import BaseLayout from '#layouts/BaseLayout.astro';
+import LinkTo from '#components/LinkTo.astro';
+import Cards from '#components/Cards.astro';
+
+const blogEntries = entrySort(await getCollection('blog'));
+const pinnedBlogs = blogEntries.filter(blog => {
+    return blog.data.pinned;
+});
+const latestBlogs = blogEntries.slice(0, site.latestBlogs);
+const updateDate = new Date();
+---
+
+<BaseLayout notHome={false}>
+    <header id="home-welcome">
+        <h1 class="title">
+            {site.homeTitle.colorPart && <span class="color-part">{site.homeTitle.colorPart}</span>}{
+                site.homeTitle.normalPart
+            }
+        </h1>
+        <p class="desc">{site.profile.description}</p>
+        <ul class="social-links">
+            <li>
+                <i class="ri-planet-fill"></i>
+                常用平台 <i class="ri-arrow-right-s-fill"></i>
+            </li>
+            {
+                site.profile.socialLink.length > 0 &&
+                    site.profile.socialLink.map(val => (
+                        <li>
+                            <a
+                                href={val.link}
+                                aria-label={`link to my ${val.iconName}`}
+                                rel="nofollow noopener noreferrer"
+                                target="_blank"
+                                title={val.iconName}
+                            >
+                                <i class={`ri-${val.iconName}-fill ri-xl`} />
+                            </a>
+                        </li>
+                    ))
+            }
+        </ul>
+        <ul class="site-info">
+            <li>
+                <i class="ri-book-2-fill"></i>
+                文章数量 <i class="ri-arrow-right-s-fill"></i>
+                {blogEntries.length}
+            </li>
+            <li>
+                <i class="ri-calendar-check-fill"></i>
+                更新日期 <i class="ri-arrow-right-s-fill"></i>
+                <time datetime={updateDate.toISOString()}>
+                    {dateFormat(updateDate, '/')}
+                </time>
+            </li>
+        </ul>
+        <ul class="env-info">
+            <li>
+                <i class="ri-building-3-fill"></i>
+                站点版本 <i class="ri-arrow-right-s-fill"></i>
+                {version}
+            </li>
+            <li>
+                <i class="ri-puzzle-fill"></i>
+                构建框架 <i class="ri-arrow-right-s-fill"></i>
+                {Astro.generator}
+            </li>
+        </ul>
+    </header>
+    {
+        pinnedBlogs.length > 0 && (
+            <>
+                <h2 class="cards-title">
+                    <i class="ri-pushpin-fill" />
+                    置顶文章
+                </h2>
+                <Cards entries={pinnedBlogs} />
+            </>
+        )
+    }
+    <h2 class="cards-title">
+        <i class="ri-quill-pen-fill"></i>
+        最新文章
+    </h2>
+    <Cards entries={latestBlogs} />
+    <section id="to-published">
+        <LinkTo href={router.PUBLISHED}>
+            <i class="ri-signpost-fill"></i>
+            查看所有
+        </LinkTo>
+    </section>
+</BaseLayout>

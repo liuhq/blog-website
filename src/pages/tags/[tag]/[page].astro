@@ -1,0 +1,45 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import { site } from '#config';
+import { getTags } from '#utils/GetSomething';
+import entrySort from '#utils/EntrySort';
+import BaseLayout from '#layouts/BaseLayout.astro';
+import Current from '#components/Current.astro';
+import Cards from '#components/Cards.astro';
+import Paginator from '#components/Paginator.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+    const blogEntries = entrySort(await getCollection('blog'));
+    const allTags = getTags(blogEntries);
+    if (allTags.length > 0) {
+        return allTags.flatMap(tag => {
+            const filterEntries = blogEntries.filter(entry => {
+                return entry.data.tags?.includes(tag!);
+            });
+            return paginate(filterEntries, {
+                pageSize: site.pageSize,
+                params: { tag },
+            });
+        });
+    } else {
+        return [];
+    }
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const { tag } = Astro.params;
+---
+
+<BaseLayout>
+    <Current>
+        <Fragment slot="title">
+            <i class="ri-hashtag"></i>{tag}
+        </Fragment>
+        <Fragment slot="info">
+            已为你检索到文章 {page.total} 篇 ヾ( •̀ ω •́ )✧
+        </Fragment>
+    </Current>
+    <Cards entries={page.data} />
+    <Paginator {page} />
+</BaseLayout>

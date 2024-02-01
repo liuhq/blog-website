@@ -1,0 +1,31 @@
+---
+import { router } from '#config';
+import dateFormat from '#utils/DateFormat';
+import LinkTo from '#components/LinkTo.astro';
+
+interface Props {
+    categories: Array<{ name: string; count: number; update: Date }>;
+}
+
+const { categories } = Astro.props as Props;
+---
+
+<ul id="list">
+    {
+        categories.map(cate => (
+            <li class="list-item">
+                <i class="ri-arrow-right-double-fill" />
+                <LinkTo href={router.path(router.PUBLISHED, cate.name, '1')} bold={true}>
+                    {cate.name}{' '}
+                    <i class="ri-arrow-right-line">
+                        {' '}
+                        <span class="item-count">{cate.count} 篇</span>
+                    </i>
+                </LinkTo>
+                <p class="item-info">
+                    <time datetime={cate.update.toISOString()}>{dateFormat(cate.update)}</time>
+                </p>
+            </li>
+        ))
+    }
+</ul>

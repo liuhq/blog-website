@@ -1,0 +1,53 @@
+:root {
+    font-size: 16px;
+    line-height: 22px;
+    --page-max-width: 768px;
+    --page-min-width: 300px;
+    --curve: cubic-bezier(0.1, 0.9, 0.2, 1)
+        /*
+    caption secondary   | font-size line-height: 12px 16px;
+    coption             | font-size line-height: 14px 20px;
+    body                | font-size line-height: 16px 22px;
+    subtitle secondary  | font-size line-height: 20px 28px;
+    subtitle            | font-size line-height: 24px 32px;
+    title               | font-size line-height: 28px 36px;
+    large title         | font-size line-height: 32px 40px;
+    display             | font-size line-height: 40px 52px;
+    */;
+}
+[data-darkmode='light'] {
+    --primary: #ed5569;
+    --foreground: #242424;
+    --foreground-secondary: #707070;
+    --background: #fafafa;
+    --background-alpha: rgba(255, 255, 255, 0.8);
+    --background-card: #ffffff;
+    --background-card-secondary: #f5f5f5;
+    --background-card-pressed: var(--background-card-secondary);
+    --scrollbar-idle: rgba(0, 0, 0, 0.2);
+    --scrollbar-hover: rgba(0, 0, 0, 0.5);
+    --pre-scrollbar-border: #ffffff;
+    --stroke-bord: #616161;
+    --table-border-header: var(--stroke-bord);
+    --table-border: #d6d6d6;
+    --inline-code: #ed556a80;
+    --shadow: 0 0 4px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.14);
+}
+[data-darkmode='dark'] {
+    --primary: #55edd8;
+    --foreground: #ffffff;
+    --foreground-secondary: #c9c9c9;
+    --background: #141414;
+    --background-alpha: rgba(31, 31, 31, 0.8);
+    --background-card: #292929;
+    --background-card-secondary: #3d3d3d;
+    --background-card-pressed: var(--background-card-secondary);
+    --scrollbar-idle: rgba(255, 255, 255, 0.3);
+    --scrollbar-hover: rgba(255, 255, 255, 0.6);
+    --pre-scrollbar-border: #24292e;
+    --stroke-bord: #adadad;
+    --table-border-header: var(--stroke-bord);
+    --table-border: rgb(83, 83, 83);
+    --inline-code: #55edd899;
+    --shadow: 0 0 4px rgba(0, 0, 0, 0.24), 0 2px 4px rgba(0, 0, 0, 0.28);
+}

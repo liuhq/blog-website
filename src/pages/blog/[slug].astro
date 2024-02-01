@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import { router, site } from '#config';
+import dateFormat from '#utils/DateFormat';
+import BaseLayout from '#layouts/BaseLayout.astro';
+import LinkTo from '#components/LinkTo.astro';
+
+export const getStaticPaths = (async () => {
+    const blogEntries = await getCollection('blog');
+    return blogEntries.map(entry => ({
+        params: {
+            slug: entry.slug,
+        },
+        props: {
+            entry,
+        },
+    }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const category = entry.data.category || site.uncategorized;
+---
+
+<BaseLayout>
+    <header id="article-header">
+        <h1 class="article-title">{entry.data.title}</h1>
+        <div class="article-info">
+            <span>
+                <i class="ri-calendar-2-fill ri-lg ri-fw"> </i>
+                <time datetime={entry.data.date.toISOString()}>{dateFormat(entry.data.date)}</time>
+            </span>
+            <LinkTo href={router.path(router.PUBLISHED, category, '1')} target="_self">
+                <i class="ri-bookmark-fill ri-lg ri-fw"> </i>
+                {category}
+            </LinkTo>
+        </div>
+    </header>
+    <article id="article-content" class="md">
+        <Content />
+    </article>
+    <footer id="article-footer">
+        <div class="card-tags">
+            {
+                entry.data.tags?.map(tag => (
+                    <LinkTo href={router.path(router.TAGS, tag, '1')} class="card-tag" target="_self">
+                        <i class="ri-hashtag">{tag}</i>
+                    </LinkTo>
+                ))
+            }
+        </div>
+    </footer>
+</BaseLayout>

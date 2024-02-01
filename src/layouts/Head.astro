@@ -1,0 +1,16 @@
+---
+import { site, router } from '#config';
+---
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={site.description} />
+    <meta name="keywords" content={site.keywords.join()} />
+    <meta name="theme-color" content="" />
+    <link rel="sitemap" type="application/xml" href={router.path(router.ROOT, 'sitemap-index.xml')} />
+    <title>{site.title}</title>
+    <script src="/js/darkmode.js" is:inline></script>
+    <link rel="icon" type="image/svg+xml" href={router.path(router.ROOT, 'favicon.svg')} />
+</head>

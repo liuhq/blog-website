@@ -1,0 +1,33 @@
+---
+import { site } from '#config';
+import Head from '#layouts/Head.astro';
+import Header from '#layouts/Header.astro';
+import Aside from '#layouts/Aside.astro';
+import Footer from '#layouts/Footer.astro';
+
+import '@fontsource-variable/sora';
+import '@fontsource-variable/jetbrains-mono';
+import 'remixicon/fonts/remixicon.css';
+import '#styles/variable.css';
+import '#styles/main.css';
+
+interface Props {
+    notHome?: boolean;
+}
+
+const { notHome = true } = Astro.props as Props;
+---
+
+<html lang={site.lang} data-darkmode="light">
+    <Head />
+    <body>
+        <Header {notHome} />
+        <main id="main">
+            <div class="contain">
+                <slot />
+            </div>
+        </main>
+        <Aside />
+        <Footer />
+    </body>
+</html>

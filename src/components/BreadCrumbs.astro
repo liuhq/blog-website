@@ -1,0 +1,54 @@
+---
+import { router, site } from '#config';
+import LinkTo from '#components/LinkTo.astro';
+
+// remove trailing slash if exists
+const currentUrl = Astro.url.pathname.replace(/\/+$/, '');
+// get current url slug array
+const breadCrumbList = currentUrl
+    .split('/')
+    .slice(1)
+    .map(v => decodeURIComponent(v).replace(/\.html$/, '')); // remove trailing .html if exists
+
+/*
+    When the length of breadcrumbs is greater than 1
+    and the last item is a number, combine the last
+    item with the second-to-last item to display the
+    current pagination.
+*/
+if (breadCrumbList.length > 1 && /[0-9]+/.test(breadCrumbList[breadCrumbList.length - 1])) {
+    const last = breadCrumbList.slice(-2);
+    breadCrumbList.splice(
+        -2,
+        2,
+        `${site.breadCrumbsMap[last[0]] || last[0]} ${site.breadCrumbs.pagePrefix}${last[1]}${
+            site.breadCrumbs.pageSuffix
+        }`
+    );
+}
+---
+
+<nav id="breadcrumbs">
+    <ul>
+        <li class="not-last">
+            <i class="ri-game-fill"></i>
+            <LinkTo href={router.HOME}>首页</LinkTo>
+            <i class="ri-arrow-right-s-line"></i>
+        </li>
+        {
+            breadCrumbList.map((breadCrumb, index, list) =>
+                // the last item is not a link.
+                index + 1 === breadCrumbList.length ? (
+                    <li>{site.breadCrumbsMap[breadCrumb] || breadCrumb}</li>
+                ) : (
+                    <li class="not-last">
+                        <LinkTo href={router.path(router.ROOT, ...list.slice(0, index + 1))}>
+                            {site.breadCrumbsMap[breadCrumb] || breadCrumb}
+                        </LinkTo>
+                        <i class="ri-arrow-right-s-line" />
+                    </li>
+                )
+            )
+        }
+    </ul>
+</nav>

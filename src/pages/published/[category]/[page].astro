@@ -1,0 +1,47 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import { site } from '#config';
+import { getCategories } from '#utils/GetSomething';
+import entrySort from '#utils/EntrySort';
+import BaseLayout from '#layouts/BaseLayout.astro';
+import Current from '#components/Current.astro';
+import Cards from '#components/Cards.astro';
+import Paginator from '#components/Paginator.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+    const blogEntries = entrySort(await getCollection('blog'));
+    const allCategories = [
+        site.allCategories,
+        ...getCategories(blogEntries, site.uncategorized).map(cate => cate.name),
+    ];
+    return allCategories.flatMap(category => {
+        const filterEntries = blogEntries.filter(entry => {
+            if (category === site.allCategories) return true;
+            else if (category === site.uncategorized) return entry.data.category === undefined;
+            else return category === entry.data.category;
+        });
+        return paginate(filterEntries, {
+            pageSize: site.pageSize,
+            params: { category },
+        });
+    });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const { category } = Astro.params;
+---
+
+<BaseLayout>
+    <Current>
+        <Fragment slot="title">
+            <i class="ri-bookmark-line"></i>
+            {category}
+        </Fragment>
+        <Fragment slot="info">
+            已为你检索到文章 {page.total} 篇 ヾ( •̀ ω •́ )✧
+        </Fragment>
+    </Current>
+    <Cards entries={page.data} showCate={false} />
+    <Paginator {page} />
+</BaseLayout>

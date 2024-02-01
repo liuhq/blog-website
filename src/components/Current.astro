@@ -1,0 +1,13 @@
+---
+import BreadCrumbs from '#components/BreadCrumbs.astro';
+---
+
+<header id="current">
+    <BreadCrumbs />
+    <h1 class="current-title">
+        <slot name="title" />
+    </h1>
+    <p class="current-info">
+        <slot name="info" />
+    </p>
+</header>

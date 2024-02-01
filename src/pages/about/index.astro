@@ -1,0 +1,35 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '#layouts/BaseLayout.astro';
+import AboutSection from '#components/AboutSection.astro';
+
+const aboutmeEntry = await getEntry('about', 'aboutme');
+const aboutsiteEntry = await getEntry('about', 'aboutsite');
+const changelogsEntry = await getEntry('about', 'changelogs');
+
+const { Content: AboutMe } = await aboutmeEntry.render();
+const { Content: AboutSite } = await aboutsiteEntry.render();
+const { Content: Changelogs } = await changelogsEntry.render();
+---
+
+<BaseLayout>
+    <h1 class="about-title"><i class="ri-question-line"></i> 关于……</h1>
+    <AboutSection>
+        <Fragment slot="title">
+            <i class="ri-chat-1-line"></i> 我
+        </Fragment>
+        <AboutMe />
+    </AboutSection>
+    <AboutSection>
+        <Fragment slot="title">
+            <i class="ri-pages-line"></i> 本站
+        </Fragment>
+        <AboutSite />
+    </AboutSection>
+    <AboutSection>
+        <Fragment slot="title">
+            <i class="ri-git-merge-line"></i> 更新日志
+        </Fragment>
+        <Changelogs />
+    </AboutSection>
+</BaseLayout>
