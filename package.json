@@ -1,7 +1,7 @@
 {
   "name": "blog-website",
   "description": "My blog-website's source code.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -9,7 +9,7 @@
     "pnpm": ">=8"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "start": "astro check && astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
