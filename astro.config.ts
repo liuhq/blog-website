@@ -58,6 +58,14 @@ export default {
       footnoteLabel: '注释',
       footnoteBackLabel: (referenceIndex, rereferenceIndex) =>
         '返回引用 ' + (referenceIndex + 1) + (rereferenceIndex > 1 ? '-' + rereferenceIndex : ''),
+      footnoteBackContent: (referenceIndex, rereferenceIndex) => ({
+        type: 'element',
+        tagName: 'i',
+        properties: {
+          className: 'ri-arrow-go-back-line',
+        },
+        children: [],
+      }),
     },
     remarkPlugins: [],
     rehypePlugins: [

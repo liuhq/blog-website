@@ -413,6 +413,9 @@
     #home-welcome .social-links li {
         margin: 0;
     }
+    #home-welcome .social-links li:nth-of-type(2) {
+        margin-left: -8px;
+    }
     #home-welcome .social-links li a {
         color: var(--foreground);
     }
@@ -770,12 +773,16 @@
         opacity: 0.75;
     }
     .md ul.contains-task-list [type='checkbox']:checked::after {
-        content: '\2714';
-        position: absolute;
-        bottom: -2px;
-        right: 1px;
+        content: '\eb7b';
+        position: relative;
+        top: -1px;
+        left: -1px;
         color: var(--background-card);
-        font-size: 12px;
+        font-family: 'remixicon' !important;
+        font-size: 14px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
     .md table {
         display: block;
@@ -1025,6 +1032,9 @@
         #home-welcome .social-links {
             margin-top: 0;
             margin-bottom: 0;
+        }
+        #home-welcome .social-links li:nth-of-type(2) {
+            margin-left: -8px;
         }
         /* #endregion HomeWelcome */
         /* #region 404 */
