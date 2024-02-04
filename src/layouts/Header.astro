@@ -13,10 +13,18 @@ const { notHome } = Astro.props as Props;
     const openMenu = document.getElementById('open-menu') as HTMLButtonElement;
     const openMenuIcon = openMenu.childNodes[0] as HTMLElement;
     const menuList = document.querySelector('#navigator .menu .menu-list')?.classList;
+    const menuListItems = document.querySelectorAll(
+        '#navigator .menu .menu-list .menu-item'
+    ) as NodeListOf<HTMLLIElement>;
+
     openMenu.addEventListener('click', () => {
         openMenuIcon.classList.toggle('ri-menu-3-fill');
         openMenuIcon.classList.toggle('ri-close-fill');
-        menuList?.toggle('shown');
+        menuList?.toggle('shown-list');
+        for (const item of menuListItems) {
+            item.classList.toggle('shown-item');
+        }
+
         const expanded = openMenu.getAttribute('aria-expanded') === 'true';
         openMenu.setAttribute('aria-expanded', `${!expanded}`);
     });

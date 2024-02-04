@@ -1,5 +1,11 @@
 # blog-website
 
+## 1.0.2
+
+### Patch Changes
+
+- 修复了顶部导航栏 Header 组件在 Safari 移动端展开导航菜单时出现抖动的问题。
+
 ## 1.0.1
 
 ### Patch Changes
