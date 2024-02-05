@@ -58,7 +58,7 @@ export default {
       footnoteLabel: '注释',
       footnoteBackLabel: (referenceIndex, rereferenceIndex) =>
         '返回引用 ' + (referenceIndex + 1) + (rereferenceIndex > 1 ? '-' + rereferenceIndex : ''),
-      footnoteBackContent: (referenceIndex, rereferenceIndex) => ({
+      footnoteBackContent: () => ({
         type: 'element',
         tagName: 'i',
         properties: {
