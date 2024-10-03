@@ -1,3 +1,6 @@
+
+>NOTE: Migrating to Nextjs (because of learning Nextjs & React 😄)
+
 # blog-website
 
 My blog-website's source code.
